@@ -257,6 +257,18 @@ target
 # 현재 train dml wjdqhrk chlwhd ahepfdml ahtmq
 # NaN 이 없음, 전부 숫자으로 매핑된 상황
 
+# ***************************
+# 예측 모델 생성 및 결과 제출
+# ***************************
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+
+
+
 train.isnull().sum()
 test.isnull().sum()
 

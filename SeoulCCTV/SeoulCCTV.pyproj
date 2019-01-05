@@ -25,7 +25,13 @@
     <Compile Include="decision_tree.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="iris.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="knn1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="konlp.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mnist.py">
@@ -34,14 +40,38 @@
     <Compile Include="mnist2.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NaiveBayesClassFier.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NaiveBayesClassFier_tester.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ram_price.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Selenium_1.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SeoulCCTV.py" />
     <Compile Include="Soule_Crime.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Spam.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spam_t.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_random_forest.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_spam.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="titanic.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="titanic_ensenble.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="train_test_set.py">
