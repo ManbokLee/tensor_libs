@@ -21,12 +21,15 @@ font_name = font_manager.FontProperties(fname=path).get_name()
 rc('font', family=font_name)
 
 train = pd.read_csv(os.getcwd() + '/data/train.csv')
+train_origin = pd.read_csv(os.getcwd() + '/data/train.csv')
 '''
 Index(['PassengerId', 'Survived', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp',
        'Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked'],
       dtype='object')
 '''
 test = pd.read_csv(os.getcwd() + '/data/test.csv')
+test_origin = pd.read_csv(os.getcwd() + '/data/test.csv')
+test_origin
 '''
 Index(['PassengerId', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp', 'Parch',
        'Ticket', 'Fare', 'Cabin', 'Embarked'],
@@ -232,6 +235,8 @@ train.head()
 
 # Name 과 PassengerId 삭제
 train = train.drop(['Name', 'PassengerId'], axis = 1)
+test_with_id = test.copy()
+test_with_id
 test = test.drop(['Name', 'PassengerId'], axis = 1)
 train = train.drop(['Age', 'Fare'], axis = 1)
 test = test.drop(['Age', 'Fare'], axis = 1)
@@ -249,7 +254,6 @@ train.head()
 train_data = train.drop('Survived', axis = 1)
 target = train['Survived']
 train_data.shape, target.shape
-
 
 train.info
 target
@@ -269,10 +273,79 @@ from sklearn.svm import SVC
 
 
 
-train.isnull().sum()
-test.isnull().sum()
+'''
+테스트 모델을 찾기 전에 k-fold cross validation 을 사용하여
+정확도를 향상시킵니다. k-fold cross validation 은 교차검증방법으로
+일반적으로 검증용 데이터가 별도로 존재하는 경우가 만지 않기 때문에
+train 데이터에서 분리한 test 데이터로 검증합니다. 
+K-fold CV 를 활용하여 Train set 데이터를 10개의 flod 로 나눕니다.
+이를 위해 10개의 스필릿을 사용합니다.
+'''
+
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+
+k_fold = KFold(n_splits = 10, shuffle = True, random_state= 0)
+
+# KNN 방식 검증
+
+clf = KNeighborsClassifier(n_neighbors=13)
+scoring = 'accuracy'
+score = cross_val_score(clf, train_data, target, cv=k_fold, n_jobs=1, scoring=scoring)
+round(np.mean(score) * 100, 2) # 82.15
 
 
-train['Sex']
+# 결정트리 방식 검증
+
+clf = DecisionTreeClassifier()
+scoring = 'accuracy'
+score = cross_val_score(clf, train_data, target, cv=k_fold, n_jobs=1, scoring=scoring)
+round(np.mean(score) * 100, 2) # 81.92
+
+
+# 랜덤포레스트 방식 검증
+clf = RandomForestClassifier(n_estimators=13) # 13개의 결정 트리를 사용함 없는경우 100개사용
+scoring = 'accuracy'
+score = cross_val_score(clf, train_data, target, cv=k_fold, n_jobs=1, scoring=scoring)
+round(np.mean(score) * 100, 2) # 81.46
+
+
+# 나이브베이즈 방식 검증
+clf = GaussianNB()
+scoring = 'accuracy'
+score = cross_val_score(clf, train_data, target, cv=k_fold, n_jobs=1, scoring=scoring)
+round(np.mean(score) * 100, 2) # 80.03
+
+
+# SVC 방식 검증
+clf = SVC()
+scoring = 'accuracy'
+score = cross_val_score(clf, train_data, target, cv=k_fold, n_jobs=1, scoring=scoring)
+round(np.mean(score) * 100, 2) # 83.05
+
+
+'''
+교차검증결과 평균 정확도는 82정도 나옴
+따라서 이제 최종적으로 test data set 을 활용하여 결과물을 확인합니다. 
+최종 결과물은 submission.csv 파일을 생성하여 저장하면 됨.
+SVM 방식기 가장 정확도가 높음으로 이 방식으로 제출하기로 결정
+'''
+
+clf = SVC()
+clf.fit(train_data, target)
+
+prediction = clf.predict(test)
+submission = pd.DataFrame({
+    'PassengerId': test_with_id['PassengerId'],
+    'Survived': prediction
+    })
+submission.to_csv('submission.csv', index=False, encoding='UTF-8')
+submission.head
+
+
+
+
+
+
 
 

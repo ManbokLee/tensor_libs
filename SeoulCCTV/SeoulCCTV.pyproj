@@ -49,6 +49,12 @@
     <Compile Include="ram_price.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RNN2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RNN3.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Selenium_1.py">
       <SubType>Code</SubType>
     </Compile>
